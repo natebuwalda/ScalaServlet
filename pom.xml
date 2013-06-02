@@ -51,6 +51,13 @@
             <version>${org.eclipse.jetty.version}</version>
         </dependency>
 
+        <!-- data -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>casbah_2.10</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+
         <!-- testing -->
         <dependency>
             <groupId>junit</groupId>

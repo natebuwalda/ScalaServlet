@@ -1,4 +1,4 @@
-package com.jyc.demo.domain
+package com.jyc.demo.employee
 
 import scala.beans.BeanProperty
 

@@ -1,18 +1,17 @@
 package com.jyc.demo.api
 
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest, HttpServlet}
-import com.jyc.demo.domain.Employee
 import com.jyc.demo.logging.ConsoleLogger._
 import Json._
 import scala.beans.BeanProperty
 import org.apache.commons.io.IOUtils
+import com.jyc.demo.employee.{EmployeeMongoService, Employee}
 
 class ApiServlet extends HttpServlet {
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) {
-    val employee = Employee("Nate", "Buwalda", "Consultant", 34, 1000000.00)
-
-    writeResponse(response, performAndLog(toJson(employee)))
+    import EmployeeMongoService._
+    writeResponse(response, performAndLog(toJson(listEmployees().head)))
   }
 
   override def doPost(request: HttpServletRequest, response: HttpServletResponse) {
