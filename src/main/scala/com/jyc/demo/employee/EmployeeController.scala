@@ -1,9 +1,7 @@
 package com.jyc.demo.employee
 
 import scala.beans.BeanProperty
-import com.jyc.demo.common.Json
-import Json._
-import com.jyc.demo.common.Json
+import com.jyc.demo.common.Json._
 
 object EmployeeController {
   private var instance: Option[EmployeeController] = None
@@ -20,7 +18,6 @@ object EmployeeController {
 }
 
 class EmployeeController {
-
   private val employeeService = EmployeeMongoService()
 
   def showEmployees: List[Employee] = employeeService.listEmployees()
@@ -32,7 +29,6 @@ class EmployeeController {
       case None => Right(EmployeeErrorMessage("insert failed"))
     }
   }
-
 }
 
 sealed trait ResultMessage {
