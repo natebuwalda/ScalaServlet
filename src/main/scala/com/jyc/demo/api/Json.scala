@@ -7,7 +7,7 @@ object Json {
   val mapper = new ObjectMapper()
   mapper.registerModule(DefaultScalaModule)
 
-  def toJson[T](bean: T): String = mapper.writeValueAsString(bean)
+  def toJson[T](value: T): String = mapper.writeValueAsString(value)
   def fromJson[T](json: String, clazz: Class[T]): T = {
     mapper.readValue(json, clazz)
   }

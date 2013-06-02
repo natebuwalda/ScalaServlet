@@ -10,16 +10,22 @@ import com.jyc.demo.employee.{EmployeeMongoService, Employee}
 class ApiServlet extends HttpServlet {
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) {
-    import EmployeeMongoService._
-    writeResponse(response, performAndLog(toJson(listEmployees().head)))
+    writeResponse(response, performAndLog(toJson(EmployeeMongoService.listEmployees())))
   }
 
   override def doPost(request: HttpServletRequest, response: HttpServletResponse) {
     val newEmployeeJson = performAndLog(IOUtils.toString(request.getInputStream, request.getCharacterEncoding))
-    val newEmployee = fromJson(newEmployeeJson, classOf[Employee])
 
-    import newEmployee._
-    writeResponse(response, performAndLog(toJson(ResultMessage("Added %s %s".format(firstName, lastName)))))
+    val insertResult = EmployeeMongoService.addNewEmployee(fromJson(newEmployeeJson, classOf[Employee]))
+    insertResult match {
+      case Some((id, doc)) => writeResponse(response,
+        performAndLog(toJson(ResultMessage("Added obj id %s".format(id), doc))))
+      case None => {
+        response.getWriter.println("{ \"insert\" : \"failed\" }")
+        response.setContentType("application/json")
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+      }
+    }
   }
 
   private def writeResponse(response: HttpServletResponse, jsonResponse: String) {
@@ -29,7 +35,7 @@ class ApiServlet extends HttpServlet {
   }
 }
 
-case class ResultMessage(@BeanProperty message: String)
+case class ResultMessage(@BeanProperty message: String, @BeanProperty document: Employee)
 
 
 
