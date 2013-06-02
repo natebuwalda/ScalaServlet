@@ -1,33 +1,28 @@
 package com.jyc.demo.api
 
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest, HttpServlet}
-import org.codehaus.jackson.map.ObjectMapper
 import com.jyc.demo.domain.Employee
-import java.util.Date
+import com.jyc.demo.logging.ConsoleLogger._
+import Json._
 
-class ApiServlet extends HttpServlet with ConsoleLogging {
+class ApiServlet extends HttpServlet {
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) {
     val employee = Employee("Nate", "Buwalda", "Consultant", 34, 1000000.00)
-    val mapper = new ObjectMapper()
 
-    val employeeJson = mapper.writeValueAsString(employee)
-    doLog(employeeJson)
+    val jsonResponse = performAndLog(toJson(employee))
 
-    response.setContentType("application/json");
-    response.setStatus(HttpServletResponse.SC_OK);
-    response.getWriter().println(employeeJson);
+    response.getWriter.println(jsonResponse)
+    response.setContentType("application/json")
+    response.setStatus(HttpServletResponse.SC_OK)
   }
 
 }
 
-trait Logging {
-  def doLog(message: String)
-}
 
-trait ConsoleLogging extends Logging {
-  def doLog(message: String) {
-    val now = new Date(System.currentTimeMillis())
-    println("%s: %s".format(now, message))
-  }
-}
+
+
+
+
+
+
