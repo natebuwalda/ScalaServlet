@@ -3,39 +3,39 @@ package com.jyc.demo.api
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest, HttpServlet}
 import com.jyc.demo.logging.ConsoleLogger._
 import Json._
-import scala.beans.BeanProperty
 import org.apache.commons.io.IOUtils
-import com.jyc.demo.employee.{EmployeeMongoService, Employee}
+import com.jyc.demo.employee.EmployeeController
 
 class ApiServlet extends HttpServlet {
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) {
-    writeResponse(response, performAndLog(toJson(EmployeeMongoService.listEmployees())))
+    writeResponse(response, performAndLog(toJson(EmployeeController().showEmployees)), okStatus)
   }
 
   override def doPost(request: HttpServletRequest, response: HttpServletResponse) {
     val newEmployeeJson = performAndLog(IOUtils.toString(request.getInputStream, request.getCharacterEncoding))
-
-    val insertResult = EmployeeMongoService.addNewEmployee(fromJson(newEmployeeJson, classOf[Employee]))
-    insertResult match {
-      case Some((id, doc)) => writeResponse(response,
-        performAndLog(toJson(ResultMessage("Added obj id %s".format(id), doc))))
-      case None => {
-        response.getWriter.println("{ \"insert\" : \"failed\" }")
-        response.setContentType("application/json")
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-      }
+    EmployeeController().addEmployee(newEmployeeJson) match {
+      case Left(msg) => writeResponse(response, performAndLog(toJson(msg)), okStatus)
+      case Right(msg) => writeResponse(response, performAndLog(toJson(msg)), errorStatus)
     }
   }
 
-  private def writeResponse(response: HttpServletResponse, jsonResponse: String) {
+  private def writeResponse(response: HttpServletResponse, jsonResponse: String, status: (HttpServletResponse) => Unit) {
     response.getWriter.println(jsonResponse)
     response.setContentType("application/json")
+    status(response)
+  }
+
+  private def okStatus(response: HttpServletResponse) {
     response.setStatus(HttpServletResponse.SC_OK)
+  }
+
+  private def errorStatus(response: HttpServletResponse) {
+    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
   }
 }
 
-case class ResultMessage(@BeanProperty message: String, @BeanProperty document: Employee)
+
 
 
 

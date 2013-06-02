@@ -18,7 +18,21 @@ trait EmployeeService {
   def addNewEmployee: Employee => Option[(String, Employee)]
 }
 
-object EmployeeMongoService extends EmployeeService with EmployeeServiceContext {
+object EmployeeMongoService {
+  private var instance: Option[EmployeeMongoService] = None
+
+  def apply(): EmployeeMongoService = {
+    instance match {
+      case Some(service) => service
+      case None => {
+        instance = Option(new EmployeeMongoService)
+        instance.get
+      }
+    }
+  }
+}
+
+class EmployeeMongoService extends EmployeeService with EmployeeServiceContext {
   def listEmployees = listEmployeesFromRepo(EmployeeMongoRepository())
 
   def addNewEmployee: Employee => Option[(String, Employee)] = {
