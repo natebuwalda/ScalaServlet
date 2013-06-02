@@ -1,8 +1,9 @@
 package com.jyc.demo.employee
 
 import scala.beans.BeanProperty
-import com.jyc.demo.api.Json
+import com.jyc.demo.common.Json
 import Json._
+import com.jyc.demo.common.Json
 
 object EmployeeController {
   private var instance: Option[EmployeeController] = None

@@ -1,4 +1,4 @@
-package com.jyc.demo.base
+package com.jyc.demo.common
 
 import com.jyc.demo.employee.Employee
 

@@ -1,6 +1,6 @@
 package com.jyc.demo.employee
 
-import com.jyc.demo.base.Repository
+import com.jyc.demo.common.Repository
 
 trait EmployeeServiceContext {
   protected def listEmployeesFromRepo: Repository[Employee] => Unit => List[Employee] = {

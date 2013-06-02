@@ -2,7 +2,7 @@ package com.jyc.demo.employee
 
 import com.mongodb.casbah.Imports._
 import com.jyc.demo.mongo.MongoContext
-import com.jyc.demo.base.Repository
+import com.jyc.demo.common.Repository
 import com.mongodb
 
 trait EmployeeRepository extends Repository[Employee]

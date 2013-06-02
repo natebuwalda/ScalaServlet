@@ -1,4 +1,4 @@
-package com.jyc.demo.api
+package com.jyc.demo.common
 
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.databind.ObjectMapper
