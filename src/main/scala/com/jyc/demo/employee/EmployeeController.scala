@@ -36,7 +36,5 @@ sealed trait ResultMessage {
 }
 case class EmployeeResultMessage(@BeanProperty message: String, @BeanProperty document: Employee) extends ResultMessage
 
-sealed trait ErrorMessage {
-  val message: String
-}
+sealed trait ErrorMessage extends ResultMessage
 case class EmployeeErrorMessage(@BeanProperty message: String) extends ErrorMessage
