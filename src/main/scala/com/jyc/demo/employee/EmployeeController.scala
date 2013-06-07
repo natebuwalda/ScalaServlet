@@ -1,6 +1,5 @@
 package com.jyc.demo.employee
 
-import scala.beans.BeanProperty
 import com.jyc.demo.common.Json._
 
 object EmployeeController {
@@ -34,7 +33,7 @@ class EmployeeController {
 sealed trait ResultMessage {
   val message: String
 }
-case class EmployeeResultMessage(@BeanProperty message: String, @BeanProperty document: Employee) extends ResultMessage
+case class EmployeeResultMessage(message: String, document: Employee) extends ResultMessage
 
 sealed trait ErrorMessage extends ResultMessage
-case class EmployeeErrorMessage(@BeanProperty message: String) extends ErrorMessage
+case class EmployeeErrorMessage(message: String) extends ErrorMessage

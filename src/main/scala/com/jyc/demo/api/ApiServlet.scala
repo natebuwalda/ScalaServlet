@@ -2,8 +2,7 @@ package com.jyc.demo.api
 
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest, HttpServlet}
 import com.jyc.demo.logging.ConsoleLogger._
-import com.jyc.demo.common.Json
-import Json._
+import com.jyc.demo.common.Json._
 import org.apache.commons.io.IOUtils
 import com.jyc.demo.employee.EmployeeController
 
